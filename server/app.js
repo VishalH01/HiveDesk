@@ -59,6 +59,22 @@ app.use('/api/auth', authRoutes);
 app.use('/api/notes', noteRoutes);
 app.use('/api/categories', categoryRoutes);
 
+// Root route for deployment check (visible in browser)
+app.get('/', (req, res) => {
+  res.send(`
+    <html>
+      <head><title>HiveDesk Backend</title></head>
+      <body>
+        <script>
+          alert('Backend deployed successfully!');
+        </script>
+        <h1>HiveDesk Backend is running.</h1>
+        <p>If you see this page, your backend deployment was successful.</p>
+      </body>
+    </html>
+  `);
+});
+
 // 404 handler
 app.use('*', (req, res) => {
   res.status(404).json({

@@ -55,6 +55,19 @@ const Home = () => {
     );
   }, []);
 
+  // Deployment health check
+  useEffect(() => {
+    const checkDeployment = async () => {
+      try {
+        await apiService.healthCheck();
+        window.alert("Deployed successfully");
+      } catch (error) {
+        window.alert("Deployment error: " + (error?.message || error));
+      }
+    };
+    checkDeployment();
+  }, []);
+
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
