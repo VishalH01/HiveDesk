@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { apiService } from "../services/apiService";
 import toast, { Toaster } from "react-hot-toast";
+import logo_1 from "../assets/logo_1.png"
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -82,7 +83,7 @@ const Home = () => {
       <div className="max-w-4xl mx-auto px-6 py-12">
         <div className="text-center">
           <div className="flex justify-center mb-8">
-            <img src="/src/assets/logo_1.png" alt="HiveDesk Logo" className="" />
+            <img src={logo_1} alt="HiveDesk Logo" className="" />
           </div>
           <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Welcome to <span className="text-indigo-600">HiveDesk</span>
