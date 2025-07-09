@@ -43,7 +43,6 @@ const Dashboard = () => {
   const [editingNote, setEditingNote] = useState<Note | null>(null);
   const [editingCategory, setEditingCategory] = useState<Category | null>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
-  const [showCategories, setShowCategories] = useState(false);
   const [gridLayout, setGridLayout] = useState<'2' | '3' | '4'>('3');
   
   // Debug grid layout changes
@@ -191,7 +190,7 @@ const Dashboard = () => {
         // Handle backend validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const backendErrors: {[key: string]: string} = {};
-          result.errors.forEach((error: any) => {
+          result.errors.forEach((error: { field: string; message: string }) => {
             backendErrors[error.field] = error.message;
           });
           setNoteErrors(backendErrors);
@@ -237,7 +236,7 @@ const Dashboard = () => {
         // Handle backend validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const backendErrors: {[key: string]: string} = {};
-          result.errors.forEach((error: any) => {
+          result.errors.forEach((error: { field: string; message: string }) => {
             backendErrors[error.field] = error.message;
           });
           setNoteErrors(backendErrors);
@@ -287,7 +286,7 @@ const Dashboard = () => {
         // Handle backend validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const backendErrors: {[key: string]: string} = {};
-          result.errors.forEach((error: any) => {
+          result.errors.forEach((error: { field: string; message: string }) => {
             backendErrors[error.field] = error.message;
           });
           setCategoryErrors(backendErrors);
@@ -324,7 +323,7 @@ const Dashboard = () => {
         // Handle backend validation errors
         if (result.errors && Array.isArray(result.errors)) {
           const backendErrors: {[key: string]: string} = {};
-          result.errors.forEach((error: any) => {
+          result.errors.forEach((error: { field: string; message: string }) => {
             backendErrors[error.field] = error.message;
           });
           setCategoryErrors(backendErrors);
@@ -1152,224 +1151,6 @@ const NoteCard = ({ note, category, onEdit, onDelete, onPinToggle }: {
           )}
         </div>
       </div>
-    </div>
-  );
-};
-
-
-
-// Category Card Component with Responsive Actions
-const CategoryCard = ({ category, onEdit, onDelete }: {
-  category: Category;
-  onEdit: () => void;
-  onDelete: () => void;
-}) => {
-  const [showDropdown, setShowDropdown] = useState(false);
-
-  return (
-    <div className="group flex items-center justify-between p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200">
-      <div className="flex items-center space-x-2">
-        <div
-          className="w-3 h-3 rounded-full shadow-sm"
-          style={{ backgroundColor: category.color }}
-        ></div>
-        <span className="text-sm font-medium text-gray-700">{category.name}</span>
-      </div>
-      
-      {/* Desktop: Hover buttons (hidden on mobile) */}
-      <div className="hidden md:flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <button
-          onClick={onEdit}
-          className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded transition-colors duration-200"
-          title="Edit category"
-        >
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-          </svg>
-        </button>
-        <button
-          onClick={onDelete}
-          className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors duration-200"
-          title="Delete category"
-        >
-          <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
-      </div>
-
-      {/* Mobile: Dropdown button (hidden on desktop) */}
-      <div className="md:hidden relative">
-        <button
-          onClick={() => setShowDropdown(!showDropdown)}
-          className="p-1 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded transition-colors duration-200"
-          title="More options"
-        >
-          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-          </svg>
-        </button>
-
-        {/* Mobile Dropdown Menu */}
-        {showDropdown && (
-          <>
-            {/* Backdrop to close dropdown */}
-            <div 
-              className="fixed inset-0 z-10" 
-              onClick={() => setShowDropdown(false)}
-            />
-            
-            {/* Dropdown Content */}
-            <div className="absolute right-0 top-full mt-1 w-32 bg-white rounded-lg shadow-lg border border-gray-200 py-1 z-20">
-              <button
-                onClick={() => {
-                  onEdit();
-                  setShowDropdown(false);
-                }}
-                className="w-full flex items-center px-3 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors duration-200"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-                </svg>
-                Edit
-              </button>
-              <button
-                onClick={() => {
-                  onDelete();
-                  setShowDropdown(false);
-                }}
-                className="w-full flex items-center px-3 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors duration-200"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                </svg>
-                Delete
-              </button>
-            </div>
-          </>
-        )}
-      </div>
-    </div>
-  );
-};
-
-// Draggable Category Card Component for Desktop
-const DraggableCategoryCard = ({ 
-  category, 
-  index, 
-  onEdit, 
-  onDelete, 
-  onMove 
-}: {
-  category: Category;
-  index: number;
-  onEdit: () => void;
-  onDelete: () => void;
-  onMove: (fromIndex: number, toIndex: number) => void;
-}) => {
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOver, setDragOver] = useState(false);
-
-  const handleDragStart = (e: React.DragEvent) => {
-    setIsDragging(true);
-    e.dataTransfer.setData('text/plain', index.toString());
-    e.dataTransfer.effectAllowed = 'move';
-  };
-
-  const handleDragEnd = () => {
-    setIsDragging(false);
-    setDragOver(false);
-  };
-
-  const handleDragOver = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(true);
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    setDragOver(false);
-    const fromIndex = parseInt(e.dataTransfer.getData('text/plain'));
-    if (fromIndex !== index) {
-      onMove(fromIndex, index);
-    }
-  };
-
-  return (
-    <div
-      draggable
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-      onDragOver={handleDragOver}
-      onDrop={handleDrop}
-      className={`
-        relative group cursor-move
-        p-4 rounded-xl border-2 border-dashed transition-all duration-200
-        ${isDragging 
-          ? 'border-indigo-400 bg-indigo-50 scale-105 shadow-lg' 
-          : dragOver 
-            ? 'border-indigo-300 bg-indigo-25' 
-            : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-md'
-        }
-      `}
-    >
-      {/* Drag Handle */}
-      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-        <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8h16M4 16h16" />
-        </svg>
-      </div>
-
-      {/* Category Content */}
-      <div className="flex flex-col items-center text-center space-y-3">
-        {/* Color Circle */}
-        <div 
-          className="w-12 h-12 rounded-full shadow-lg flex items-center justify-center"
-          style={{ backgroundColor: category.color }}
-        >
-          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
-          </svg>
-        </div>
-
-        {/* Category Name */}
-        <h4 className="font-semibold text-gray-900 text-sm">{category.name}</h4>
-
-        {/* Action Buttons */}
-        <div className="flex items-center space-x-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onEdit();
-            }}
-            className="p-1.5 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-lg transition-colors duration-200"
-            title="Edit category"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
-            </svg>
-          </button>
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onDelete();
-            }}
-            className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
-            title="Delete category"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {/* Drag Overlay */}
-      {isDragging && (
-        <div className="absolute inset-0 bg-indigo-100 bg-opacity-50 rounded-xl flex items-center justify-center">
-          <div className="text-indigo-600 font-medium">Moving...</div>
-        </div>
-      )}
     </div>
   );
 };
