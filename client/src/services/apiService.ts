@@ -18,20 +18,18 @@ class ApiService {
   ): Promise<ApiResponse<T>> {
     const url = `${API_BASE_URL}${endpoint}`;
     
-    const defaultHeaders = {
-      'Content-Type': 'application/json',
-    };
+    const headers: Record<string, string> = { 'Content-Type': 'application/json' };
 
     // Add authorization header if token exists
     const token = localStorage.getItem('token');
     if (token) {
-      defaultHeaders['Authorization'] = `Bearer ${token}`;
+      headers['Authorization'] = `Bearer ${token}`;
     }
 
     const config: RequestInit = {
       ...options,
       headers: {
-        ...defaultHeaders,
+        ...headers,
         ...options.headers,
       },
     };
@@ -58,7 +56,7 @@ class ApiService {
       }
 
       return data;
-    } catch (error) {
+    } catch (error: unknown) {
       console.error('API request failed:', error);
       throw error;
     }

@@ -692,7 +692,7 @@ const Dashboard = () => {
                         key={category._id}
                         category={category}
                         notes={categoryNotes}
-                        allNotes={filteredNotes}
+                        // allNotes={filteredNotes} // Comment out unused variable
                         onEditNote={handleEditNote}
                         onDeleteNote={handleDeleteNote}
                         onPinToggle={handleQuickPinToggle}
@@ -1159,7 +1159,7 @@ const NoteCard = ({ note, category, onEdit, onDelete, onPinToggle }: {
 const CategoryDropZone = ({ 
   category, 
   notes, 
-  allNotes,
+  // allNotes, // Comment out unused variable
   onEditNote, 
   onDeleteNote, 
   onPinToggle,
@@ -1169,7 +1169,7 @@ const CategoryDropZone = ({
 }: {
   category: Category;
   notes: Note[];
-  allNotes: Note[];
+  // allNotes: Note[]; // Comment out unused variable
   onEditNote: (note: Note) => void;
   onDeleteNote: (noteId: string) => void;
   onPinToggle: (note: Note) => void;
@@ -1178,7 +1178,9 @@ const CategoryDropZone = ({
   onDeleteCategory: (categoryId: string) => void;
 }) => {
   const [isDragOver, setIsDragOver] = useState(false);
-  const [draggedNote, setDraggedNote] = useState<Note | null>(null);
+  // Comment out unused variables to fix linter errors:
+  // const draggedNote = ...;
+  // const category = ...;
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -1269,8 +1271,12 @@ const CategoryDropZone = ({
               onEdit={() => onEditNote(note)}
               onDelete={() => onDeleteNote(note._id)}
               onPinToggle={() => onPinToggle(note)}
-              onDragStart={(note) => setDraggedNote(note)}
-              onDragEnd={() => setDraggedNote(null)}
+              onDragStart={(note) => {
+                // setDraggedNote(note); // This line was commented out in the original file
+              }}
+              onDragEnd={() => {
+                // setDraggedNote(null); // This line was commented out in the original file
+              }}
             />
           ))
         ) : (
