@@ -15,7 +15,7 @@ const app = express();
 connectDB();
 
 // CORS configuration - MUST come before other middleware
-const corsOrigin = (process.env.CORS_ORIGIN).replace(/\/$/, '');
+const corsOrigin = 'https://hive-desk-7b4r.vercel.app';
 app.use(cors({
   origin: corsOrigin,
   credentials: true,
