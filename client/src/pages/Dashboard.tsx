@@ -1267,7 +1267,6 @@ const CategoryDropZone = ({
             <DraggableNoteCard
               key={note._id}
               note={note}
-              category={category}
               onEdit={() => onEditNote(note)}
               onDelete={() => onDeleteNote(note._id)}
               onPinToggle={() => onPinToggle(note)}
@@ -1297,7 +1296,6 @@ const CategoryDropZone = ({
 // Draggable Note Card Component
 const DraggableNoteCard = ({ 
   note, 
-  category, 
   onEdit, 
   onDelete, 
   onPinToggle,
@@ -1305,7 +1303,6 @@ const DraggableNoteCard = ({
   onDragEnd
 }: {
   note: Note;
-  category: Category;
   onEdit: () => void;
   onDelete: () => void;
   onPinToggle: () => void;
