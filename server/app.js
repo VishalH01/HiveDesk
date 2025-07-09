@@ -15,8 +15,9 @@ const app = express();
 connectDB();
 
 // CORS configuration - MUST come before other middleware
+const corsOrigin = (process.env.CORS_ORIGIN || 'http://localhost:5173').replace(/\/$/, '');
 app.use(cors({
-  origin: process.env.CORS_ORIGIN || 'https://hive-desk.vercel.app',
+  origin: corsOrigin,
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -39,7 +40,7 @@ const limiter = rateLimit({
 app.use('/api/', limiter);
 
 // Handle preflight requests
-app.options('*', cors());
+app.options('*', cors({ origin: corsOrigin }));
 
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
@@ -99,7 +100,7 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`Environment: ${process.env.NODE_ENV}`);
-  console.log(`CORS Origin: ${process.env.CORS_ORIGIN || 'http://localhost:5173'}`);
+  console.log(`CORS Origin: ${corsOrigin}`);
 });
 
 module.exports = app; 
