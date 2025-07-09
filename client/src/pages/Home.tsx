@@ -56,23 +56,6 @@ const Home = () => {
     );
   }, []);
 
-  // Deployment health check
-  useEffect(() => {
-    const checkDeployment = async () => {
-      try {
-        await apiService.healthCheck();
-        window.alert("Deployed successfully");
-      } catch (error: unknown) {
-        function hasMessage(e: unknown): e is { message: string } {
-          return typeof e === 'object' && e !== null && 'message' in e && typeof (e as { message?: unknown }).message === 'string';
-        }
-        const errorMessage = hasMessage(error) ? error.message : String(error);
-        window.alert('Deployment error: ' + errorMessage);
-      }
-    };
-    checkDeployment();
-  }, []);
-
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
