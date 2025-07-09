@@ -1179,7 +1179,7 @@ const CategoryDropZone = ({
 }) => {
   const [isDragOver, setIsDragOver] = useState(false);
   // Comment out unused variables to fix linter errors:
-  // const draggedNote = ...;
+  // const note = ...;
   // const category = ...;
 
   const handleDragOver = (e: React.DragEvent) => {

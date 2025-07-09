@@ -62,8 +62,12 @@ const Home = () => {
       try {
         await apiService.healthCheck();
         window.alert("Deployed successfully");
-      } catch (error) {
-        window.alert("Deployment error: " + (error?.message || error));
+      } catch (error: unknown) {
+        function hasMessage(e: unknown): e is { message: string } {
+          return typeof e === 'object' && e !== null && 'message' in e && typeof (e as { message?: unknown }).message === 'string';
+        }
+        const errorMessage = hasMessage(error) ? error.message : String(error);
+        window.alert('Deployment error: ' + errorMessage);
       }
     };
     checkDeployment();
