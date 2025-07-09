@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { apiService } from "../services/apiService";
-
+import logo_1 from "../assets/logo_1.png";
 interface User {
   id: string;
   name: string;
@@ -487,7 +487,7 @@ const Dashboard = () => {
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
               <div className="flex items-center">
-                <img src="/src/assets/logo_1.png" alt="HiveDesk Logo" className="w-full h-full" />
+                <img src={logo_1} alt="HiveDesk Logo" className="w-full h-full" />
               </div>
             </div>
             
