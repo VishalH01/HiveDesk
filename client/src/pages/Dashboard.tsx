@@ -1270,7 +1270,7 @@ const CategoryDropZone = ({
               onEdit={() => onEditNote(note)}
               onDelete={() => onDeleteNote(note._id)}
               onPinToggle={() => onPinToggle(note)}
-              onDragStart={(note) => {
+              onDragStart={() => {
                 // setDraggedNote(note); // This line was commented out in the original file
               }}
               onDragEnd={() => {
