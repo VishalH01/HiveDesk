@@ -1077,7 +1077,7 @@ const NoteCard = ({ note, category, onEdit, onDelete, onPinToggle }: {
           <h3 className="text-lg font-semibold text-gray-900 truncate flex-1 pr-2 group-hover:text-indigo-600 transition-colors duration-200">
             {note.title}
           </h3>
-          <div className="flex space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          <div className="flex space-x-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
             <button
               onClick={onPinToggle}
               className={`p-1 rounded-lg transition-all duration-200 ${
@@ -1232,7 +1232,7 @@ const CategoryDropZone = ({
         </div>
         
         {/* Category Action Buttons */}
-        <div className="flex items-center space-x-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+        <div className="flex items-center space-x-1 opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -1386,8 +1386,8 @@ const DraggableNoteCard = ({
             </button>
           </div>
           
-          {/* Edit and Delete buttons - only visible on hover */}
-          <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+          {/* Edit and Delete buttons - visible on mobile, hover on desktop */}
+          <div className="opacity-100 md:opacity-0 md:group-hover:opacity-100 transition-opacity duration-200">
             <button
               onClick={(e) => {
                 e.stopPropagation();
